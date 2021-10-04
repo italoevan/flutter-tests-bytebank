@@ -2,8 +2,9 @@ import 'package:bytebank/data/models/transferencia_model.dart';
 import 'package:flutter/material.dart';
 
 class FormularioTransferencia extends StatelessWidget {
-  TextEditingController _controladorCampoConta = new TextEditingController();
-  TextEditingController _controladorValor = new TextEditingController();
+  final TextEditingController _controladorCampoConta =
+      new TextEditingController();
+  final TextEditingController _controladorValor = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,19 +39,7 @@ class FormularioTransferencia extends StatelessWidget {
               color: Colors.transparent,
             ),
             ElevatedButton(
-              onPressed: () {
-                final String numeroConta = _controladorCampoConta.text;
-                final String numeroValor = _controladorValor.text;
-
-                if (numeroValor.isEmpty || numeroConta.isEmpty) {
-                  final snack =
-                      SnackBar(content: Text('O valor não pode ser nulo'));
-                  ScaffoldMessenger.of(context).showSnackBar(snack);
-                }
-
-                TransferenciaModel model =
-                    new TransferenciaModel(numeroValor, numeroConta);
-              },
+              onPressed: () => createTransfer(context),
               style: ElevatedButton.styleFrom(),
               child: Text('Salvar'),
             )
@@ -58,5 +47,21 @@ class FormularioTransferencia extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void createTransfer(BuildContext context) {
+    final String numeroConta = _controladorCampoConta.text;
+    final String numeroValor = _controladorValor.text;
+
+    
+
+    if (numeroValor.isEmpty || numeroConta.isEmpty) {
+      final snack = SnackBar(content: Text('O valor não pode ser nulo'));
+      ScaffoldMessenger.of(context).showSnackBar(snack);
+      return;
+    }
+
+    TransferenciaModel model = new TransferenciaModel(numeroValor, numeroConta);
+    Navigator.pop(context, model);
   }
 }
