@@ -63,5 +63,6 @@ class FormularioTransferencia extends StatelessWidget {
 
     TransferenciaModel model = new TransferenciaModel(numeroValor, numeroConta);
     Navigator.pop(context, model);
+    
   }
 }

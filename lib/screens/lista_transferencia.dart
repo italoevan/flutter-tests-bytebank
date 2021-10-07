@@ -1,7 +1,7 @@
 import 'package:bytebank/components/home_components/item_transferencia_item.dart';
 import 'package:bytebank/data/models/transferencia_model.dart';
 import 'package:flutter/material.dart';
-import './formulario_referencia.dart';
+import 'formulario_transferencia.dart';
 
 class ListaTransferencias extends StatefulWidget {
   Function test;
@@ -15,7 +15,12 @@ class _ListaTransferenciasState extends State<ListaTransferencias> {
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     return Scaffold(
+      appBar: AppBar(
+        title: Text('ByteBank'),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: new ListView.builder(
           itemCount: _transferencias.length,
@@ -26,18 +31,21 @@ class _ListaTransferenciasState extends State<ListaTransferencias> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Future<TransferenciaModel> future = Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => FormularioTransferencia()));
-
-          future.then((value) {
-            this._transferencias.add(value);
-            setState(() {});
-          });
+          Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FormularioTransferencia()))
+              .then((value) => _atualiza);
         },
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  void _atualiza(var value) {
+    if (value != null) {
+      this._transferencias.add(value);
+      setState(() {});
+    }
   }
 }
